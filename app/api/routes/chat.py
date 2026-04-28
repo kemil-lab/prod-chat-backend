@@ -1,6 +1,5 @@
 from fastapi import APIRouter
 
-from app.rag.pipeline import run_rag_pipeline_llamaIndex
 from app.schemas.chat import ChatRequest, ChatResponse
 
 router = APIRouter()
@@ -9,6 +8,7 @@ router = APIRouter()
 @router.post("/chat", response_model=ChatResponse)
 def chat(request: ChatRequest):
     try:
+        from app.rag.pipeline import run_rag_pipeline_llamaIndex
 
         result = run_rag_pipeline_llamaIndex(request.question)
 

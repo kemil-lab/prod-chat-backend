@@ -1,9 +1,10 @@
 from fastapi import FastAPI
 from app.api.routes import  chat,health
 from fastapi.middleware.cors import CORSMiddleware
-
+from app.core.config import settings
 app = FastAPI(title="Chatbot Backend API")
-print(1)
+print("------------------------------------")
+print(settings.CHROMA_DATABASE)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  
