@@ -12,11 +12,8 @@ import chromadb
 from llama_index.vector_stores.chroma import ChromaVectorStore
 # from llama_index.core.node_parser import get_leaf_nodes
 
-def reRanker():
-    return SentenceTransformerRerank(
-            model=config.RERANK_MODEL,
-            top_n=3,
-        )
+
+
 def setup_hybrid_query_engine():
     db = chromadb.PersistentClient(path=config.CHROMA_PERSIST_DIR)
     chroma_collection = db.get_or_create_collection(config.CHROMA_COLLECTION_NAME)
