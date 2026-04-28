@@ -12,7 +12,7 @@ from app.core.config import settings as config
 from functools import lru_cache
 import chromadb
 from llama_index.vector_stores.chroma import ChromaVectorStore
-# from llama_index.core.node_parser import get_leaf_nodes
+from app.db.Chroma_clientV2 import get_chroma_client
 @lru_cache(maxsize=1)
 def reRanker():
     print("Initializing Reranker...")
@@ -21,7 +21,7 @@ def reRanker():
             top_n=3,
         )
 def setup_hybrid_query_engine():
-    db = chromadb.PersistentClient(path=config.CHROMA_PERSIST_DIR)
+    db = get_chroma_client()
     chroma_collection = db.get_or_create_collection(config.CHROMA_COLLECTION_NAME)
     vector_store = ChromaVectorStore(chroma_collection=chroma_collection)
     storage_context = StorageContext.from_defaults(
