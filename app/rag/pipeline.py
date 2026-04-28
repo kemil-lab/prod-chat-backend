@@ -4,13 +4,7 @@ from app.rag.prompt_builder import  build_prompt_v2, query_analyzer
 from app.services.llm_service import generate_answer
 import re
 # from app.services.rerank_service import rerank
-from app.services.retrieval_service_llama import engine
-# in your pipeline / service
-
-from app.services.model_store import reranker
-
-def use_reranker():
-    return reranker
+from app.services.retrieval_service_llama import engine, reRanker
 import json
 
 
@@ -71,7 +65,7 @@ def run_rag_pipeline_llamaIndex(question: str) -> dict:
         }
 
 
-    reranker = use_reranker()
+    reranker = reRanker()
     
     if analysis.get("needs_decomposition", False):
         reranker.top_n = FINAL_TOP_K

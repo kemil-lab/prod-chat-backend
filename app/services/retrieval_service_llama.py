@@ -1,3 +1,5 @@
+from functools import lru_cache
+
 from llama_index.core import StorageContext, VectorStoreIndex, Settings
 from llama_index.retrievers.bm25 import BM25Retriever
 from llama_index.core.retrievers import QueryFusionRetriever, AutoMergingRetriever
@@ -7,13 +9,17 @@ from app.contexts.mongo import docstore
 from llama_index.core.postprocessor import SentenceTransformerRerank
 
 from app.core.config import settings as config
-
+from functools import lru_cache
 import chromadb
 from llama_index.vector_stores.chroma import ChromaVectorStore
 # from llama_index.core.node_parser import get_leaf_nodes
-
-
-
+@lru_cache(maxsize=1)
+def reRanker():
+    print("Initializing Reranker...")
+    return SentenceTransformerRerank(
+            model=config.RERANK_MODEL,
+            top_n=3,
+        )
 def setup_hybrid_query_engine():
     db = chromadb.PersistentClient(path=config.CHROMA_PERSIST_DIR)
     chroma_collection = db.get_or_create_collection(config.CHROMA_COLLECTION_NAME)
