@@ -1,1 +1,0 @@
-reranker = None
