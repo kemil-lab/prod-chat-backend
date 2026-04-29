@@ -78,7 +78,7 @@ def run_rag_pipeline_llamaIndex(question: str) -> dict:
 
     sources = []
     for node in reranked_nodes:
-        if getattr(node, "score", 0) >= THRESHOLD:
+        # if getattr(node, "score", 0) >= THRESHOLD:
             sources.append({
                 "id": getattr(node, "id_", None),
                 "content": node.get_content(),
