@@ -44,13 +44,13 @@ Answer:
 def build_prompt_v2(question: str, chunks: list[dict]) -> str:
     context = "\n\n".join(
         [
-            f"[Source: {chunk['metadata'].get('source', 'Unknown')} | Page: {chunk['metadata'].get('page', 'N/A')}]\n{chunk['content'].strip()}"
+            f"[Source: {chunk['metadata'].get('file_name', 'Unknown')} | Page: {chunk['metadata'].get('page', 'N/A')}]\n{chunk['content'].strip()}"
             for chunk in chunks
         ]
     )
 
     prompt = textwrap.dedent(f"""
-    <role>
+   <role>
     You are a specialized Medical Knowledge Assistant for Multiple Sclerosis (MS). Your role is to provide clinicians and researchers with precise, evidence-based answers derived from technical medical literature.
     </role>
 

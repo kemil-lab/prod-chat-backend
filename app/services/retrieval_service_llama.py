@@ -18,7 +18,7 @@ def reRanker():
     print("Initializing Reranker...")
     return SentenceTransformerRerank(
             model=config.RERANK_MODEL,
-            top_n=3,
+            top_n=5,
         )
 def setup_hybrid_query_engine():
     db = get_chroma_client()
