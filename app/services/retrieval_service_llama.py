@@ -7,7 +7,7 @@ from llama_index.core.query_engine import RetrieverQueryEngine
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from app.contexts.mongo import docstore
 from llama_index.core.postprocessor import SentenceTransformerRerank
-
+import torch
 from app.core.config import settings as config
 from functools import lru_cache
 import chromadb
@@ -29,10 +29,11 @@ def setup_hybrid_query_engine():
         vector_store=vector_store,
         # persist_dir=config.CHROMA_PERSIST_DIR,
     )
+    device = "cuda" if torch.cuda.is_available() else "cpu"
     
     Settings.embed_model = HuggingFaceEmbedding(
         model_name=config.EMBEDDING_MODEL,
-        # device=device,
+        device=device,
     
     )
     Settings.llm = None

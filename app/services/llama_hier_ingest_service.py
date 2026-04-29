@@ -10,6 +10,8 @@ import hashlib
 from app.core.config import settings as config
 from app.db.Chroma_clientV2 import get_collection
 from pathlib import Path
+import torch
+
 BATCH_SIZE = 300 
 def clean_metadata(raw_meta: dict) -> dict:
     source_path = raw_meta.get("source") or raw_meta.get("file_path") or ""
@@ -57,10 +59,10 @@ def generate_content_hash(text: str) -> str:
     
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
 def ingest_pharma_data_hybrid(input_dir: str = "data/raw") -> Dict[str, Any]:
-
+    device = "cuda" if torch.cuda.is_available() else "cpu"
     Settings.embed_model = HuggingFaceEmbedding(
         model_name=config.EMBEDDING_MODEL,
-        # device=device,
+        device=device,
     
     )
     loader = DirectoryLoader(
